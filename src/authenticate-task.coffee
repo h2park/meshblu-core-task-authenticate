@@ -1,4 +1,3 @@
-
 class AuthenticateTask
   constructor: (dependencies={}) ->
     @authDevice = dependencies.authDevice ? require 'meshblu-server/lib/authDevice'
