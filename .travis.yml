@@ -1,10 +1,22 @@
 language: node_js
+cache:
+  bundler: true
+  directories:
+  - node_modules
 node_js:
-- '4'
+- '0.10'
+services:
+- mongodb
+- redis
+env:
+  global:
+  - REDIS_HOST=localhost
+  - REDIS_PORT=6379
 addons:
   code_climate:
     repo_token: a403831b305a47ed26a1892bec542a796afbdd441d4957b3ddc6638133bc998b
 before_script:
+- npm install -g npm
 - npm install -g codeclimate-test-reporter
 after_script:
 - codeclimate-test-reporter < coverage/lcov.info
