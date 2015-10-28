@@ -1,6 +1,6 @@
 {
   "name": "meshblu-core-task-authenticate",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Meshblu Authenticate Task",
   "main": "index.js",
   "directories": {
