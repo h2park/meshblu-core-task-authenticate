@@ -3,58 +3,87 @@ AuthenticateTask = require '../../src/authenticate-task'
 describe 'AuthenticateTask', ->
   describe '->run', ->
     beforeEach ->
-      @authDevice = sinon.stub()
+      @device = verifyToken: sinon.stub()
+      @Device = sinon.spy => @device
       dependencies =
-        authDevice: @authDevice
+        Device: @Device
       @sut = new AuthenticateTask dependencies
 
     describe 'when called with a valid request and callback', ->
       beforeEach (done) ->
-        @authDevice.yields null
-        metadata = uuid: 'super-uuid', token: 'awesome-token'
-        request = metadata: metadata, rawData: '{}'
+        @device.verifyToken.yields null, true
+
+        request =
+          metadata:
+            uuid: 'super-uuid'
+            token: 'awesome-token'
+            responseId: 'truck'
+          rawData: 'null'
+
         @sut.run request, (@error, @response) => done()
 
       it 'should not have an error', ->
         expect(@error).to.not.exist
 
       it 'should respond with 200 status metadata', ->
-        metadata = uuid: 'super-uuid', token: 'awesome-token', code: 200, status: "OK"
-        expect(@response.metadata).to.deep.equal metadata
+        expectedMetadata =
+          responseId: 'truck'
+          code: 200
+          status: "OK"
+
+        expect(@response.metadata).to.deep.equal expectedMetadata
 
       it 'should respond with the correct rawData', ->
-        expect(@response.rawData).to.equal '{"authenticated":true}'
+        expect(@response.data).to.deep.equal authenticated: true
 
-    describe 'when called with a different valid request and callback', ->
+    describe 'when called with invalid credentials in the request', ->
       beforeEach (done) ->
-        @authDevice.yields null
-        metadata = uuid: 'cool-uuid', token: 'great-token'
-        request = metadata: metadata, rawData: '{}'
+        @device.verifyToken.yields null, false
+
+        request =
+          metadata:
+            uuid: 'wack-uuid'
+            token: 'super-wack-token'
+            responseId: 'soup-too-hot'
+          rawData: 'null'
+
         @sut.run request, (@error, @response) => done()
 
       it 'should not have an error', ->
         expect(@error).to.not.exist
 
-      it 'should respond with 200 status metadata', ->
-        metadata = uuid: 'cool-uuid', token: 'great-token', code: 200, status: "OK"
-        expect(@response.metadata).to.deep.equal metadata
+      it 'should respond with 403 status metadata', ->
+        requestMetadata =
+          responseId: 'soup-too-hot'
+          code: 403
+          status: "Forbidden"
+
+        expect(@response.metadata).to.deep.equal requestMetadata
 
       it 'should respond with the correct rawData', ->
-        expect(@response.rawData).to.equal '{"authenticated":true}'
+        expect(@response.data).to.deep.equal authenticated: false
 
-    describe 'when called with invalid credentials in the reqeust', ->
+    describe 'when verifyToken explodes spectacularly', ->
       beforeEach (done) ->
-        @authDevice.yields new Error("invalid device")
-        metadata = uuid: 'wack-uuid', token: 'super-wack-token'
-        request = metadata: metadata, rawData: '{}'
+        errorMessage = 'Lead: If I am not supposed to eat them, why are they called paint "CHIPS"?'
+        @device.verifyToken.yields new Error(errorMessage)
+
+        request =
+          metadata:
+            uuid: 'wack-uuid'
+            token: 'super-wack-token'
+            responseId: 'soup-too-hot'
+          rawData: 'null'
+
         @sut.run request, (@error, @response) => done()
 
       it 'should not have an error', ->
         expect(@error).to.not.exist
 
-      it 'should respond with 401 status metadata', ->
-        metadata = uuid: 'wack-uuid', token: 'super-wack-token', code: 401, status: "invalid device"
-        expect(@response.metadata).to.deep.equal metadata
+      it 'should respond with 500 status metadata', ->
+        requestMetadata =
+          responseId: 'soup-too-hot'
+          code: 500
+          status: "Internal Server Error"
 
-      it 'should respond with the correct rawData', ->
-        expect(@response.rawData).to.equal '{"authenticated":false}'
+        expect(@response.metadata).to.deep.equal requestMetadata

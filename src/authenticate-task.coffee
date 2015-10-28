@@ -1,20 +1,30 @@
+http = require 'http'
+Device = require 'meshblu-server/lib/models/device'
+
 class AuthenticateTask
   constructor: (dependencies={}) ->
-    @authDevice = dependencies.authDevice ? require 'meshblu-server/lib/authDevice'
+    {@Device} = dependencies
+    @Device ?= Device
 
   run: (request, callback=->) =>
     {metadata} = request
     {uuid, token} = metadata
 
-    authenticated = "true"
-    metadata.code = 200
-    metadata.status = "OK"
+    device = new @Device uuid: uuid
+    device.verifyToken token, (error, authenticated) =>
+      code = 200
+      code = 403 unless authenticated
+      code = 500 if error?
+      status = http.STATUS_CODES[code]
 
-    @authDevice uuid, token, (error) =>
-      if error?
-        authenticated = "false"
-        metadata.code = 401
-        metadata.status = error?.message ? error
-      callback null, metadata: metadata, rawData: "{\"authenticated\":#{authenticated}}"
+      response =
+        metadata:
+          responseId: metadata.responseId
+          code: code
+          status: status
+        data:
+          authenticated: authenticated
+
+      callback null, response
 
 module.exports = AuthenticateTask
