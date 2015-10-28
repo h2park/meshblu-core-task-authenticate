@@ -8,7 +8,7 @@ class AuthenticateTask
 
   run: (request, callback=->) =>
     {metadata} = request
-    {uuid, token} = metadata
+    {uuid, token} = metadata.auth
 
     device = new @Device uuid: uuid
     device.verifyToken token, (error, authenticated) =>

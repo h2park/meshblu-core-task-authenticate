@@ -15,12 +15,20 @@ describe 'AuthenticateTask', ->
 
         request =
           metadata:
-            uuid: 'super-uuid'
-            token: 'awesome-token'
+            auth:
+              uuid: 'super-uuid'
+              token: 'awesome-token'
             responseId: 'truck'
           rawData: 'null'
 
         @sut.run request, (@error, @response) => done()
+
+      it 'should instantiate a Device with the uuid', ->
+        expect(@Device).to.have.been.calledWithNew
+        expect(@Device).to.have.been.calledWith uuid: 'super-uuid'
+
+      it 'should call verifyToken with the token', ->
+        expect(@device.verifyToken).to.have.been.calledWith 'awesome-token'
 
       it 'should not have an error', ->
         expect(@error).to.not.exist
@@ -42,8 +50,9 @@ describe 'AuthenticateTask', ->
 
         request =
           metadata:
-            uuid: 'wack-uuid'
-            token: 'super-wack-token'
+            auth:
+              uuid: 'wack-uuid'
+              token: 'super-wack-token'
             responseId: 'soup-too-hot'
           rawData: 'null'
 
@@ -70,8 +79,9 @@ describe 'AuthenticateTask', ->
 
         request =
           metadata:
-            uuid: 'wack-uuid'
-            token: 'super-wack-token'
+            auth:
+              uuid: 'wack-uuid'
+              token: 'super-wack-token'
             responseId: 'soup-too-hot'
           rawData: 'null'
 
