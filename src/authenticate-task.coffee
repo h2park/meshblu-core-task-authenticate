@@ -1,10 +1,9 @@
 http = require 'http'
-Device = require 'meshblu-server/lib/models/device'
 
 class AuthenticateTask
   constructor: (dependencies={}) ->
     {@Device} = dependencies
-    @Device ?= Device
+    @Device ?= require 'meshblu-server/lib/models/device'
 
   run: (request, callback=->) =>
     {metadata} = request
