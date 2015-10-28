@@ -1,5 +1,5 @@
 {
-  "name": "meshblu-task-authenticate",
+  "name": "meshblu-core-task-authenticate",
   "version": "1.0.2",
   "description": "Meshblu Authenticate Task",
   "main": "index.js",
@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/octoblu/meshblu-task-authenticate.git"
+    "url": "git+https://github.com/octoblu/meshblu-core-task-authenticate.git"
   },
   "author": "Octoblu Inc <npm@octoblu.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/octoblu/meshblu-task-authenticate/issues"
+    "url": "https://github.com/octoblu/meshblu-core-task-authenticate/issues"
   },
-  "homepage": "https://github.com/octoblu/meshblu-task-authenticate#readme",
+  "homepage": "https://github.com/octoblu/meshblu-core-task-authenticate#readme",
   "devDependencies": {
     "chai": "^3.4.0",
     "coffee-coverage": "^0.6.3",
