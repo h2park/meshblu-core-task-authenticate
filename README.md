@@ -2,7 +2,10 @@
 Meshblu Authenticate Task
 
 [![Build Status](https://travis-ci.org/octoblu/meshblu-core-task-authenticate.svg?branch=master)](https://travis-ci.org/octoblu/meshblu-core-task-authenticate)
-[![Code Climate](https://codeclimate.com/github/octoblu/meshblu-core-task-authenticate/badges/gpa.svg)](https://codeclimate.com/github/octoblu/meshblu-core-task-authenticate)
-[![Test Coverage](https://codeclimate.com/github/octoblu/meshblu-core-task-authenticate/badges/coverage.svg)](https://codeclimate.com/github/octoblu/meshblu-core-task-authenticate)
-[![npm version](https://badge.fury.io/js/meshblu-core-task-authenticate.svg)](http://badge.fury.io/js/meshblu-core-task-authenticate)
-[![Gitter](https://badges.gitter.im/octoblu/help.svg)](https://gitter.im/octoblu/help)
+[![Test Coverage](https://codecov.io/gh/octoblu/meshblu-core-task-authenticate/branch/master/graph/badge.svg)](https://codecov.io/gh/octoblu/meshblu-core-task-authenticate)
+[![Dependency status](http://img.shields.io/david/octoblu/meshblu-core-task-authenticate.svg?style=flat)](https://david-dm.org/octoblu/meshblu-core-task-authenticate)
+[![devDependency Status](http://img.shields.io/david/dev/octoblu/meshblu-core-task-authenticate.svg?style=flat)](https://david-dm.org/octoblu/meshblu-core-task-authenticate#info=devDependencies)
+[![Slack Status](http://community-slack.octoblu.com/badge.svg)](http://community-slack.octoblu.com)
+
+[![NPM](https://nodei.co/npm/meshblu-core-task-authenticate.svg?style=flat)](https://npmjs.org/package/meshblu-core-task-authenticate)
+
